@@ -10,7 +10,8 @@ function LoginPage() {
     <div className="flex justify-center mx-auto items-center h-full w-96">
       <Card>
         <Form
-          onFinish={(values) => {
+        layout="vertical"
+        onFinish={(values) => {
             setLoading(false);
 
             axios
@@ -19,23 +20,24 @@ function LoginPage() {
                 setLoading(false);
                 console.log(res);
                 useMyStore.setState({
-                    token:res.data.token ,
-                    user:res.data.user 
+                  token: res.data.token,
+                  user: res.data.user,
+                });
 
-                })
-                message.success("uraa")
+                localStorage.setItem("auth",JSON.stringify(res.data))
+                message.success("uraa");
               })
               .catch((e) => {
                 setLoading(false);
-                message.success("error")
+                message.success("error");
               });
           }}
         >
           <Form.Item
-        style={{
-            display:"flex",
-            
-        }}            label="Login"
+            style={{
+              display: "flex",
+            }}
+            label="Login"
             name={"username"}
             rules={[{ required: true, message: "Login Yozing" }]}
           >

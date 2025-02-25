@@ -8,20 +8,20 @@ import useMyStore from "./Store/my-store";
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
-  const state =useMyStore();
+  const state = useMyStore();
   return (
     <div className="h-screen">
       {state.token ? (
-        <div>
-              <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
-      <div className="flex h-full">
-        <Sidebar collapsed={collapsed} />
-      <MainPage />
-
-      </div>
-
+        <div className="h-full">
+          <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
+          <div className="flex h-full">
+            <Sidebar collapsed={collapsed} />
+            <MainPage />
+          </div>
         </div>
-      ):<LoginPage/>}
+      ) : (
+        <LoginPage />
+      )}
     </div>
   );
 }
