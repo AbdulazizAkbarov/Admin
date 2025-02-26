@@ -58,6 +58,11 @@ function Users() {
             title: "Last Name",
             dataIndex: "lastName",
           },
+
+          {
+            title:"Telefon Nomer",
+            dataIndex:"phone"
+          }
         ]}
         dataSource={malumot}
         loading={loading}
