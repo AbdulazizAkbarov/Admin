@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router";
-import { AppstoreOutlined, HomeFilled, MailOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, HomeFilled, MailOutlined, ReconciliationOutlined, UserAddOutlined } from "@ant-design/icons";
 import { Button, Menu } from "antd";
 function Sidebar({ collapsed }) {
   const navigate = useNavigate();
@@ -35,6 +35,16 @@ function Sidebar({ collapsed }) {
           icon: <AppstoreOutlined />,
           key: 3,
           label: <Link to={"catigories"}>Katigoriya</Link>,
+        },
+        {
+          icon: <ReconciliationOutlined />,
+          key: 4,
+          label: <Link to={"ijaralar"}>Ijaralar</Link>,
+        },
+        {
+          icon: <UserAddOutlined />,
+          key: 5,
+          label: <Link to={"user"}>Users</Link>,
         },
       ]}
     />
