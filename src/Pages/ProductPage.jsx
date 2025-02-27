@@ -18,6 +18,7 @@ function ProductPage() {
     <div className="p-2 bg-gray-300">
       <h2 className="font-bold text-xl p-2">Product Page</h2>
       <Table
+      rowKey="id"
         bordered
         columns={[
           {

@@ -11,6 +11,11 @@ function LoginPage() {
       <Card>
         <Form
         layout="vertical"
+        initialValues={{
+          username:"lib2",
+          password:"lib22"
+
+        }}
         onFinish={(values) => {
             setLoading(false);
 

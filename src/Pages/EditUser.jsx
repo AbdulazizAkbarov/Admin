@@ -3,8 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import useMyStore from "../Store/my-store";
 
-function Kitobxon_qoshish({ refresh }) {
-  const [open, setOpen] = useState(false);
+function EditUser({ refresh, setOpen, open, user }) {
   const [loading, SetLoading] = useState(false);
 
   const state = useMyStore();
@@ -20,6 +19,7 @@ function Kitobxon_qoshish({ refresh }) {
       >
         <Form
           layout="vertical"
+          initialValues={user}
           onFinish={(value) => {
             SetLoading(true);
             axios
@@ -114,16 +114,8 @@ function Kitobxon_qoshish({ refresh }) {
           </Button>
         </Form>
       </Drawer>
-      <Button
-        type="primary"
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        Qo'shish
-      </Button>
     </div>
   );
 }
 
-export default Kitobxon_qoshish;
+export default EditUser;

@@ -19,6 +19,7 @@ useEffect(()=>{
     <div className='p-2 bg-gray-300'>
         <h2 className='font-bold text-xl p-2'>Catigory Page</h2>
 <Table bordered
+rowKey="id"
 columns={[
     {
         title:"id",

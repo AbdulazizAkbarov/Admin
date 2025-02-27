@@ -1,40 +1,48 @@
 import { Switch, Table, message } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import useMyStore from "../Store/my-store";
 
 function Ijaralar() {
   const [malumot, setMalumot] = useState([]);
+  const [current, setCurrent] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const pageSize = 10;
+  const state = useMyStore();
+
   useEffect(() => {
+    setLoading(true);
     axios
       .get("https://library.softly.uz/api/rents", {
         params: {
-          size: 20,
-          page: 1,
+          size: pageSize,
+          page: current,
         },
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDUyLCJsaWJyYXJpYW4iOnRydWUsImxpYnJhcnlJZCI6MiwibG9jYXRpb25JZCI6Miwib3duZXIiOmZhbHNlLCJtb2RlcmF0b3IiOmZhbHNlLCJleHAiOjE3NDE0MTI1MDYsImlhdCI6MTc0MDM3NTcwNn0.-VquFrhK-7FacUJRENCAsXaEqLIeVYRK6ObBcnmcYSg",
+          Authorization: `Bearer ${state.token}`,
         },
       })
       .then((res) => {
         setMalumot(res.data.items);
-        console.log(res.data.items);
+        setLoading(false);
       })
       .catch((e) => {
-        message.error("Error");
+        message.error("Xatolik yuz berdi");
+        setLoading(false);
         console.error(e);
       });
-  }, []);
+  }, [current]);
+
   return (
-    <div className="p-3  bg-gray-300">
-      <h2 className="text-2xl font-bold mb-2 ">Ijara</h2>
+    <div className="p-3 bg-gray-300">
+      <h2 className="text-2xl font-bold mb-2">Ijara</h2>
       <Table
+        rowKey="id"
         bordered
         columns={[
           {
             title: "id",
             dataIndex: "id",
-            key: "sdfsdg",
           },
           {
             title: "KvId",
@@ -43,57 +51,53 @@ function Ijaralar() {
           {
             title: "Berildi",
             dataIndex: "createdAt",
-            render: (value) => {
-              return new Date(value).toLocaleString("ru", {
+            render: (value) =>
+              new Date(value).toLocaleString("ru", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
                 hour: "2-digit",
                 minute: "2-digit",
-              });
-            },
+              }),
           },
           {
             title: "Qaytadi",
             dataIndex: "returningDate",
-            render: (value) => {
-              return new Date(value).toLocaleString("ru", {
+            render: (value) =>
+              new Date(value).toLocaleString("ru", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
-              });
-            },
+              }),
           },
           {
             title: "Qoldi/Jami",
             dataIndex: "returnedAt",
-            render: (value) => {
-              if (!value) {
-                return "-";
-              }
-              return new Date(value).toLocaleString("ru", {
-                month: "2-digit",
-                day: "numeric",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              });
-            },
+            render: (value) =>
+              value
+                ? new Date(value).toLocaleString("ru", {
+                    month: "2-digit",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "-",
           },
           {
             title: "Qaytgan",
             dataIndex: "returnedAt",
-            render: (checkbox) => {
-              if (checkbox) {
-                return <Switch defaultChecked onChange={checkbox} />;
-              }
-              else{
-                return <Switch onChange={checkbox}/>
-              }
-            },
+            render: (value) => <Switch defaultChecked={!!value} />,
           },
         ]}
         dataSource={malumot}
+        loading={loading}
+        pagination={{
+          pageSize: pageSize,
+          current: current,
+          total: malumot.length * pageSize,
+          onChange: (page) => setCurrent(page),
+        }}
       />
     </div>
   );

@@ -6,6 +6,7 @@ import ProductPage from './Pages/ProductPage'
 import CatigoriesPage from './Pages/CatigoriesPage'
 import Ijaralar from './Pages/Ijaralar'
 import Users from './Pages/Users'
+import Kitoblarim from './Pages/Kitoblarim'
 
 function MainPage() {
   return (
@@ -18,6 +19,8 @@ function MainPage() {
         <Route path='/catigories' element={<CatigoriesPage/>}/>
         <Route path='/ijaralar' element={<Ijaralar/>}/>
         <Route path='/user' element={<Users/>}/>
+        <Route path='/kitoblarim' element={<Kitoblarim/>}/>
+
 
 
 
