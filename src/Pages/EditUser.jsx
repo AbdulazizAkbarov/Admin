@@ -102,11 +102,13 @@ function EditUser({ refresh, setOpen, open, user }) {
               block
               options={[
                 { label: "Erkak", value: "male" },
+
                 { label: "Ayol", value: "female" },
               ]}
               optionType="button"
               buttonStyle="solid"
             />
+            
           </Form.Item>
 
           <Button loading={loading} type="primary" htmlType="submit">

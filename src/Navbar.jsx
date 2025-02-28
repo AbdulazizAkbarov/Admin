@@ -16,7 +16,7 @@ function Navbar({ collapsed, setCollapsed }) {
   const state = useMyStore();
   return (
     <nav className="bg-slate-800 text-white flex  items-center justify-between px-8 py-2 text-xl ">
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-center">
         <Button
           type="primary"
           onClick={toggleCollapsed}
@@ -62,9 +62,10 @@ function Navbar({ collapsed, setCollapsed }) {
             <Avatar size="large" icon={<UserOutlined />} />
             <div>
               {state.user.firstName} {state.user.lastName}
+              <div>@{state.user.username}</div>
             </div>
           </div>
-          <div>@{state.user.username}</div>
+          
         </div>
       </Dropdown>
     </nav>
