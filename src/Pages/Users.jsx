@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import useMyStore from "../Store/my-store";
 import Kitobxon_qoshish from "./Kitobxon_qoshish";
 import EditUser from "./EditUser";
+import api from "./Axios";
 
 function Users() {
   const [open, setOpen] = useState(false);
@@ -17,15 +18,13 @@ function Users() {
 
   const nomi = () => {
     SetLoading(true);
-    axios
-      .get("https://library.softly.uz/api/users", {
+    api
+      .get("api/users", {
         params: {
           size: pageSize,
           page: current,
         },
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-        },
+     
       })
       .then((res) => {
         setMalumot(res.data);

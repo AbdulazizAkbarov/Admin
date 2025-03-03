@@ -2,6 +2,7 @@ import { Button, Drawer, Form, Input, InputNumber, Radio, message } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import useMyStore from "../Store/my-store";
+import api from "./Axios";
 
 function Kitobxon_qoshish({ refresh }) {
   const [open, setOpen] = useState(false);
@@ -22,9 +23,9 @@ function Kitobxon_qoshish({ refresh }) {
           layout="vertical"
           onFinish={(value) => {
             SetLoading(true);
-            axios
-              .post(
-                "https://library.softly.uz/api/users",
+            api
+              .put(
+                `api/users/${open.id}`,
                 { ...value, phone: value.phone.toString() },
                 {
                   headers: {

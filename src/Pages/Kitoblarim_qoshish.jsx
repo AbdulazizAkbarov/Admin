@@ -2,6 +2,7 @@ import { Button, Drawer, Form, Select, message } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import useMyStore from "../Store/my-store";
+import api from "./Axios";
 
 function Kitoblarim_qoshish({ refresh }) {
   const [open, setOpen] = useState(false);
@@ -11,11 +12,9 @@ function Kitoblarim_qoshish({ refresh }) {
   const state = useMyStore();
 
   useEffect(() => {
-    axios
-      .get("https://library.softly.uz/api/books",{
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-        },
+    api
+      .get("api/books",{
+      
       })
       .then((res) => {
         setBooks(res.data.items);
@@ -35,11 +34,9 @@ function Kitoblarim_qoshish({ refresh }) {
           layout="vertical"
           onFinish={(value) => {
             SetLoading(true);
-            axios
-              .post("https://library.softly.uz/api/stocks", value, {
-                headers: {
-                  Authorization: `Bearer ${state.token}`,
-                },
+            api
+              .post("/stocks", value, {
+              
               })
               .then((res) => {
                 setOpen(false);
@@ -62,7 +59,7 @@ function Kitoblarim_qoshish({ refresh }) {
               placeholder="Kitob Qidirish"
               options={books.map((item) => {
                 return { value: item.id, label: item.name };
-              })}
+              })} 
             />
           </Form.Item>
 

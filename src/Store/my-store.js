@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import api from "../Pages/Axios";
 
 const useMyStore = create(() => {
   const lsString = localStorage.getItem("auth");
@@ -10,13 +11,14 @@ const useMyStore = create(() => {
     };
   }
 
-  const ls = JSON.parse(lsString)
+  const ls = JSON.parse(lsString);
+
+  api.defaults.headers.Authorization = `Bearer ${ls.token}`;
 
   return {
-
-    token:ls.token,
-    user:ls.user
-  }
+    token: ls.token,
+    user: ls.user,
+  };
 });
 
 export default useMyStore;

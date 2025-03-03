@@ -50,6 +50,11 @@ function Sidebar({ collapsed }) {
           icon: <BookOutlined />,
           key: 6,
           label: <Link to={"kitoblarim"}>Kitoblarim</Link>,
+        },
+        {
+          icon: <BookOutlined />,
+          key:7,
+          label: <Link to={"books"}>Kitoblar</Link>,
         }
       ]}
     />

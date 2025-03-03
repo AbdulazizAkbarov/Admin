@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import useMyStore from "../Store/my-store";
 import EditUser from "./EditUser";
 import Kitoblarim_qoshish from "./Kitoblarim_qoshish";
+import api from "./Axios";
 
 function Kiroblarim() {
   const [open, setOpen] = useState(false);
@@ -17,8 +18,8 @@ function Kiroblarim() {
 
   const nomi = () => {
     SetLoading(true);
-    axios
-      .get("https://library.softly.uz/api/stocks", {
+    api
+      .get("/api/stocks", {
         params: {
           size: pageSize,
           page: current,
@@ -48,7 +49,7 @@ function Kiroblarim() {
     <div className="p-3 bg-gray-300">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold mb-2">Kitoblarim</h2>
-        <Kitoblarim_qoshish refresh={nomi}  />
+        <Kitoblarim_qoshish refresh={nomi} />
       </div>
       <EditUser open={open} setOpen={setOpen} user={user} />
       <Table

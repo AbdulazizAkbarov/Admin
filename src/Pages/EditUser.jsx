@@ -2,6 +2,7 @@ import { Button, Drawer, Form, Input, InputNumber, Radio, message } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import useMyStore from "../Store/my-store";
+import api from "./Axios";
 
 function EditUser({ refresh, setOpen, open, user }) {
   const [loading, SetLoading] = useState(false);
@@ -11,9 +12,9 @@ function EditUser({ refresh, setOpen, open, user }) {
   return (
     <div>
       <Drawer
-        open={open}
+        open={open ? true : false}
         onClose={() => {
-          setOpen(false);
+          setOpen(null);
         }}
         destroyOnClose
       >
@@ -22,18 +23,16 @@ function EditUser({ refresh, setOpen, open, user }) {
           initialValues={user}
           onFinish={(value) => {
             SetLoading(true);
-            axios
-              .post(
-                "https://library.softly.uz/api/users",
+            api
+              .put(
+                `api/users/${user.id}`,
                 { ...value, phone: value.phone.toString() },
                 {
-                  headers: {
-                    Authorization: `Bearer ${state.token}`,
-                  },
+              
                 }
               )
               .then((res) => {
-                setOpen(false);
+                setOpen(null);
                 console.log(res.data);
                 message.success("Qoshildi");
                 refresh?.();
@@ -108,7 +107,6 @@ function EditUser({ refresh, setOpen, open, user }) {
               optionType="button"
               buttonStyle="solid"
             />
-            
           </Form.Item>
 
           <Button loading={loading} type="primary" htmlType="submit">
