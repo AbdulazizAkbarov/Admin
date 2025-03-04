@@ -13,13 +13,12 @@ function Ijaralar() {
   const [close, setClose] = useState(false);
   const [user, setUser] = useState();
   const [open, setOpen] = useState(false);
+  const [books,setBooks]=useState()
 
-  const [book, setBook] = useState();
 
   const pageSize = 10;
-  const state = useMyStore();
 
-  useEffect(() => {
+  const ijaralarRents = ()=>{
     setLoading(true);
     api
       .get(`api/rents/`, {
@@ -29,7 +28,18 @@ function Ijaralar() {
         },
       })
       .then((res) => {
-        console.log("malumot", res.data.items);
+        const books_id =res.data.items.map((item)=>{
+          return item.stock.bookId
+        })
+
+
+        api .get("/api/books",{
+          params:{
+            id:books_id
+          }
+        }).then((res)=>{
+          setBooks(res.data.items)
+        })
         setMalumot(res.data.items);
         setLoading(false);
       })
@@ -38,34 +48,27 @@ function Ijaralar() {
         setLoading(false);
         console.error(e);
       });
-  }, [current]);
+  }
 
   useEffect(() => {
-    api
-      .get(`api/books`, {
-        params: {
-          size: pageSize,
-          page: current,
-        },
-      })
-      .then((res) => {
-        console.log("res.data.items", res.data.items);
-      });
-  }, []);
+  ijaralarRents()
+  }, [current]);
 
   return (
     <div className="p-3 bg-gray-300">
       <div className="flex items-center justify-between mx-3">
         <h2 className="text-2xl font-bold mb-2">Ijara</h2>
 
-        <Ijaralar_qoshish setOpen={setOpen} open={open} />
+        <Ijaralar_qoshish setOpen={setOpen} open={open} onRefresh={ijaralarRents} />
       </div>
 
       <Edit_rents close={close} setClose={setClose} user={user} />
 
       <Table
+      
         rowKey="id"
         bordered
+        size="middle"
         columns={[
           {
             title: "id",
@@ -93,8 +96,6 @@ function Ijaralar() {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
               }),
           },
           {
@@ -133,22 +134,40 @@ function Ijaralar() {
             render: (user) => `${user.firstName} ${user.lastName}`,
           },
           {
-            title: "Kitoblar",
-            dataIndex: "book",
-            render: (b) => b,
+            title: "Zaxira Kitob",
+            dataIndex: "stock",
+            render: (i)=>{
+              return (
+                <ZaxiraKitob stock={i} books={books}/>
+              )
+            }
           },
+          
         ]}
         dataSource={malumot}
-        loading={loading}
         pagination={{
           pageSize: pageSize,
           current: current,
           total: malumot.length * pageSize,
           onChange: (page) => setCurrent(page),
         }}
+        loading={loading}
       />
     </div>
   );
+
+}
+
+function ZaxiraKitob({stock,books}) {
+  const book =books?.find((i)=>{
+    return i.id===stock.bookId
+  })
+  return(
+    <div>
+      {stock.id}/{stock.bookId}{book?.name}
+    </div>
+  )
+  
 }
 
 export default Ijaralar;
