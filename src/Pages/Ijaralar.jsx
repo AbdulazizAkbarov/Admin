@@ -10,10 +10,10 @@ function Ijaralar() {
   const [malumot, setMalumot] = useState([]);
   const [current, setCurrent] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [close, setClose] = useState(false);
   const [user, setUser] = useState();
   const [open, setOpen] = useState(false);
   const [books,setBooks]=useState()
+  const [item,setItem]=useState([])
 
 
   const pageSize = 10;
@@ -21,7 +21,7 @@ function Ijaralar() {
   const ijaralarRents = ()=>{
     setLoading(true);
     api
-      .get(`api/rents/`, {
+      .get(`api/rents`, {
         params: {
           size: pageSize,
           page: current,
@@ -33,7 +33,7 @@ function Ijaralar() {
         })
 
 
-        api .get("/api/books",{
+        api.get("/api/books",{
           params:{
             id:books_id
           }
@@ -62,7 +62,7 @@ function Ijaralar() {
         <Ijaralar_qoshish setOpen={setOpen} open={open} onRefresh={ijaralarRents} />
       </div>
 
-      <Edit_rents close={close} setClose={setClose} user={user} />
+      <Edit_rents open={open} setOpen={setOpen} user={user} setItem={setItem} item={item} />
 
       <Table
       
@@ -77,7 +77,7 @@ function Ijaralar() {
               <div
                 onClick={() => {
                   setOpen(true);
-                  // setUser(item);
+                  setItem(item)
                 }}
               >
                 {id}

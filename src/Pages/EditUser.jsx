@@ -7,7 +7,6 @@ import api from "./Axios";
 function EditUser({ refresh, setOpen, open, user }) {
   const [loading, SetLoading] = useState(false);
 
-  const state = useMyStore();
 
   return (
     <div>
@@ -46,7 +45,7 @@ function EditUser({ refresh, setOpen, open, user }) {
               });
           }}
         >
-          <Form.Item
+          <Form.Item 
             label="Ism"
             name={"firstName"}
             rules={[
