@@ -38,18 +38,23 @@ function Edit_rents({ onRefresh, setOpen, open, item }) {
       >
         <Form
           layout="vertical"
-          initialValues={item}
+          initialValues={{
+            ...item,
+            leasedAt:item.leasedAt ?.slice(0,10),
+            returningDate:item.returningDate ?.slice(0,10)
+
+          }}
 
           onFinish={(value) => {
             SetLoading(true);
             api
-              .post(`api/rents`, { ...value })
+              .put(`api/rents/${item.id}`, value )
               .then((res) => {
                 setOpen(false);
                 console.log(res.data);
                 onRefresh?.();
 
-                message.success("Qoshildi");
+                message.success("O'zgartirildi");
               })
               .catch((e) => {
                 message.error(e.response.data.message);
@@ -90,7 +95,7 @@ function Edit_rents({ onRefresh, setOpen, open, item }) {
                 },
               ]}
             >
-              <Input type="date" name="lastedAt" />
+              <Input type="date" />
             </Form.Item>
 
             <Form.Item
@@ -102,7 +107,7 @@ function Edit_rents({ onRefresh, setOpen, open, item }) {
                 },
               ]}
             >
-              <Input type="date" name="lastedAt" />
+              <Input type="date"  />
             </Form.Item>
           </div>
 
